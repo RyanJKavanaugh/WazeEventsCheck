@@ -24,7 +24,7 @@ cursor = conn.cursor()
 
 # Get only the most recent event update
 
-cursor.execute('SELECT sub.* FROM(SELECT situation_id, update_number, update_timestamp, situation_update_json FROM (SELECT *, maxnum = MAX(update_number) OVER (PARTITION BY situation_id) FROM [SACARS].[dbo].[evt_Situations]) as s WHERE update_number = maxnum) sub WHERE situation_update_json LIKE \'%"headline":{\"category\":2,\"code\":1}%\' AND update_timestamp < DATEADD(hh, -11, GETDATE()) AND situation_update_json NOT LIKE \'%DELETE%\' AND situation_update_json NOT LIKE \'%ENDED%\'')
+cursor.execute('SELECT sub.* FROM(SELECT situation_id, update_number, update_timestamp, situation_update_json FROM (SELECT *, maxnum = MAX(update_number) OVER (PARTITION BY situation_id) FROM [SACARS].[dbo].[evt_Situations]) as s WHERE update_number = maxnum) sub WHERE situation_update_json LIKE \'%"headline":{\"category\":2%\' AND update_timestamp < DATEADD(hh, -11, GETDATE()) AND situation_update_json NOT LIKE \'%DELETE%\' AND situation_update_json NOT LIKE \'%ENDED%\'')
 
 # # USED FOR EXECUTINGS A DELETE STATEMENT
 # conn.commit()
@@ -51,12 +51,12 @@ itemsInIDList = len(crashEventIDs)
 print crashEventIDs
 
 
-# # Deletes first item in ID list
-# url = 'http://cramgmt.carsprogram.int/deleteEvent/deleteEvent.php?platform=Staging&state=SACOG&eID=' + str(crashEventIDs[0]) + '&mode=Delete'
-# print url
-# r = requests.get(url)
-# print r.status_code
-
+# # # Deletes first item in ID list
+# # url = 'http://cramgmt.carsprogram.int/deleteEvent/deleteEvent.php?platform=Staging&state=SACOG&eID=' + str(crashEventIDs[0]) + '&mode=Delete'
+# # print url
+# # r = requests.get(url)
+# # print r.status_code
+# #
 # # Deletes events in loop
 # for id in crashEventIDs:
 #     if deleteCounter < itemsInIDList:
